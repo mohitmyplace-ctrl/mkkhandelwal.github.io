@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mohit Kumar Khandelwal — Digital Architect</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@400;600;700&family=Raleway:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --gold: #c9a84c;
+    --gold-bright: #f0c060;
+    --nebula-blue: #1a3a6b;
+    --nebula-purple: #2d1b5e;
+    --star-white: #e8e4f0;
+    --deep-space: #04020e;
+    --void: #080412;
+    --plasma: #6b3fa0;
+    --electric: #4fc3f7;
+    --molten: #ff8c42;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--deep-space);
+    color: var(--star-white);
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: crosshair;
+  }
+
+  /* ── STAR CANVAS ── */
+  #stars-canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; width: 100%;
+    z-index: 100;
+    padding: 20px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(to bottom, rgba(4,2,14,0.95), transparent);
+  }
+  .nav-logo {
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    letter-spacing: 4px;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: rgba(232,228,240,0.6);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  /* ── HERO ── */
+  #hero {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 120px 40px 60px;
+  }
+
+  .hero-overline {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 8px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.3s forwards;
+  }
+
+  .hero-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(36px, 7vw, 90px);
+    font-weight: 900;
+    line-height: 1.05;
+    background: linear-gradient(135deg, #f0c060 0%, #c9a84c 30%, #e8e4f0 60%, #4fc3f7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    opacity: 0;
+    animation: fadeUp 1.2s ease 0.6s forwards;
+    text-shadow: none;
+  }
+
+  .hero-subtitle {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(12px, 2vw, 18px);
+    letter-spacing: 6px;
+    color: rgba(232,228,240,0.55);
+    margin-top: 20px;
+    text-transform: uppercase;
+    opacity: 0;
+    animation: fadeUp 1s ease 1s forwards;
+  }
+
+  .hero-tagline {
+    margin-top: 40px;
+    font-size: clamp(14px, 1.8vw, 18px);
+    line-height: 1.9;
+    color: rgba(232,228,240,0.7);
+    max-width: 680px;
+    font-style: italic;
+    font-weight: 300;
+    opacity: 0;
+    animation: fadeUp 1s ease 1.4s forwards;
+  }
+
+  .hero-cta {
+    margin-top: 60px;
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    justify-content: center;
+    opacity: 0;
+    animation: fadeUp 1s ease 1.8s forwards;
+  }
+
+  .btn-primary {
+    padding: 16px 44px;
+    border: 1px solid var(--gold);
+    background: linear-gradient(135deg, rgba(201,168,76,0.15), rgba(201,168,76,0.05));
+    color: var(--gold);
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.4s;
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  }
+  .btn-primary:hover {
+    background: linear-gradient(135deg, rgba(201,168,76,0.4), rgba(201,168,76,0.2));
+    box-shadow: 0 0 40px rgba(201,168,76,0.3);
+  }
+  .btn-secondary {
+    padding: 16px 44px;
+    border: 1px solid rgba(79,195,247,0.4);
+    background: transparent;
+    color: var(--electric);
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.4s;
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  }
+  .btn-secondary:hover {
+    background: rgba(79,195,247,0.1);
+    box-shadow: 0 0 40px rgba(79,195,247,0.2);
+  }
+
+  .hero-stats {
+    margin-top: 80px;
+    display: flex;
+    gap: 60px;
+    flex-wrap: wrap;
+    justify-content: center;
+    opacity: 0;
+    animation: fadeUp 1s ease 2.2s forwards;
+  }
+
+  .stat-item { text-align: center; }
+  .stat-number {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(28px, 4vw, 48px);
+    color: var(--gold-bright);
+    display: block;
+  }
+  .stat-label {
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: rgba(232,228,240,0.45);
+    text-transform: uppercase;
+    font-family: 'Cinzel', serif;
+    margin-top: 6px;
+  }
+
+  /* ── SCROLL INDICATOR ── */
+  .scroll-indicator {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    animation: fadeIn 1s ease 3s forwards;
+  }
+  .scroll-indicator span {
+    font-family: 'Cinzel', serif;
+    font-size: 8px;
+    letter-spacing: 4px;
+    color: rgba(201,168,76,0.5);
+    text-transform: uppercase;
+  }
+  .scroll-line {
+    width: 1px;
+    height: 50px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scrollPulse 2s ease infinite;
+  }
+
+  /* ── SECTIONS SHARED ── */
+  section {
+    position: relative;
+    z-index: 1;
+    padding: 120px 60px;
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 80px;
+  }
+
+  .chapter-label {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 8px;
+    color: var(--gold);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(24px, 4vw, 48px);
+    color: var(--star-white);
+    line-height: 1.2;
+  }
+
+  .section-title span {
+    background: linear-gradient(90deg, var(--gold), var(--electric));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .divider {
+    width: 80px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 24px auto 0;
+  }
+
+  /* ── ORIGIN STORY ── */
+  #origin {
+    background: radial-gradient(ellipse at 50% 0%, rgba(45,27,94,0.4) 0%, transparent 70%);
+  }
+
+  .origin-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .origin-text p {
+    font-size: 16px;
+    line-height: 2;
+    color: rgba(232,228,240,0.75);
+    margin-bottom: 24px;
+  }
+
+  .origin-text p strong {
+    color: var(--gold);
+    font-weight: 600;
+  }
+
+  .origin-visual {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .orbit-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.2);
+    animation: orbit-spin 20s linear infinite;
+  }
+
+  .orbit-ring:nth-child(1) { width: 200px; height: 200px; animation-duration: 15s; }
+  .orbit-ring:nth-child(2) { width: 300px; height: 300px; animation-duration: 25s; animation-direction: reverse; border-color: rgba(79,195,247,0.15); }
+  .orbit-ring:nth-child(3) { width: 380px; height: 380px; animation-duration: 35s; border-color: rgba(107,63,160,0.2); }
+
+  .core-planet {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #f0c060, #8b5e1a, #1a0a00);
+    box-shadow: 0 0 60px rgba(201,168,76,0.5), inset -20px -10px 30px rgba(0,0,0,0.6);
+    z-index: 2;
+    position: relative;
+  }
+
+  .orbit-dot {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--electric);
+    box-shadow: 0 0 10px var(--electric);
+    top: -5px;
+    left: calc(50% - 5px);
+  }
+
+  /* ── TIMELINE ── */
+  #journey {
+    background: radial-gradient(ellipse at 0% 50%, rgba(26,58,107,0.3) 0%, transparent 60%);
+  }
+
+  .timeline {
+    position: relative;
+    padding-left: 60px;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, var(--gold) 10%, var(--electric) 50%, var(--gold) 90%, transparent);
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 70px;
+    opacity: 0;
+    transform: translateX(-30px);
+    transition: all 0.7s ease;
+  }
+
+  .timeline-item.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .timeline-node {
+    position: absolute;
+    left: -48px;
+    top: 8px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--gold);
+    box-shadow: 0 0 20px rgba(201,168,76,0.8), 0 0 40px rgba(201,168,76,0.3);
+    border: 2px solid var(--deep-space);
+  }
+
+  .timeline-period {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 4px;
+    color: var(--electric);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .timeline-role {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(16px, 2.5vw, 22px);
+    color: var(--gold-bright);
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+
+  .timeline-company {
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    letter-spacing: 3px;
+    color: rgba(232,228,240,0.5);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .timeline-desc {
+    font-size: 15px;
+    line-height: 1.85;
+    color: rgba(232,228,240,0.7);
+    max-width: 700px;
+  }
+
+  .timeline-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 16px;
+  }
+
+  .tag {
+    padding: 5px 14px;
+    border: 1px solid rgba(201,168,76,0.3);
+    font-family: 'Cinzel', serif;
+    font-size: 8px;
+    letter-spacing: 2px;
+    color: rgba(201,168,76,0.7);
+    text-transform: uppercase;
+    background: rgba(201,168,76,0.05);
+  }
+
+  .tag.blue {
+    border-color: rgba(79,195,247,0.3);
+    color: rgba(79,195,247,0.7);
+    background: rgba(79,195,247,0.05);
+  }
+
+  /* ── POWERS / SKILLS ── */
+  #powers {
+    background: radial-gradient(ellipse at 100% 50%, rgba(107,63,160,0.25) 0%, transparent 60%);
+  }
+
+  .powers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 28px;
+  }
+
+  .power-card {
+    padding: 40px 32px;
+    border: 1px solid rgba(201,168,76,0.15);
+    background: linear-gradient(135deg, rgba(201,168,76,0.04), rgba(79,195,247,0.02));
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s;
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  .power-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .power-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    transform: scaleX(0);
+    transition: transform 0.4s;
+  }
+
+  .power-card:hover::before { transform: scaleX(1); }
+  .power-card:hover {
+    border-color: rgba(201,168,76,0.4);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 30px rgba(201,168,76,0.1);
+    transform: translateY(-8px);
+  }
+
+  .power-icon {
+    font-size: 32px;
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .power-title {
+    font-family: 'Cinzel', serif;
+    font-size: 14px;
+    letter-spacing: 2px;
+    color: var(--gold-bright);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+
+  .power-desc {
+    font-size: 14px;
+    line-height: 1.8;
+    color: rgba(232,228,240,0.6);
+  }
+
+  /* ── MISSIONS / SAAS SECTION ── */
+  #missions {
+    background: radial-gradient(ellipse at 50% 100%, rgba(255,140,66,0.1) 0%, transparent 60%);
+    border-top: 1px solid rgba(201,168,76,0.1);
+  }
+
+  .missions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 32px;
+    margin-top: 20px;
+  }
+
+  .mission-card {
+    padding: 48px 36px;
+    border: 1px solid rgba(255,140,66,0.2);
+    background: linear-gradient(135deg, rgba(255,140,66,0.06), rgba(107,63,160,0.04));
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s;
+  }
+
+  .mission-card.coming-soon {
+    border-color: rgba(79,195,247,0.2);
+    background: linear-gradient(135deg, rgba(79,195,247,0.04), rgba(45,27,94,0.06));
+  }
+
+  .mission-badge {
+    font-family: 'Cinzel', serif;
+    font-size: 8px;
+    letter-spacing: 4px;
+    padding: 6px 16px;
+    text-transform: uppercase;
+    display: inline-block;
+    margin-bottom: 24px;
+  }
+
+  .mission-badge.live {
+    background: rgba(255,140,66,0.15);
+    border: 1px solid rgba(255,140,66,0.4);
+    color: var(--molten);
+  }
+
+  .mission-badge.soon {
+    background: rgba(79,195,247,0.1);
+    border: 1px solid rgba(79,195,247,0.3);
+    color: var(--electric);
+  }
+
+  .mission-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 20px;
+    color: var(--star-white);
+    margin-bottom: 14px;
+  }
+
+  .mission-desc {
+    font-size: 14px;
+    line-height: 1.85;
+    color: rgba(232,228,240,0.6);
+    margin-bottom: 28px;
+  }
+
+  .mission-link {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--molten);
+    text-decoration: none;
+    text-transform: uppercase;
+    border-bottom: 1px solid rgba(255,140,66,0.3);
+    padding-bottom: 3px;
+    transition: all 0.3s;
+  }
+
+  .mission-link:hover {
+    color: var(--gold);
+    border-color: var(--gold);
+  }
+
+  .mission-link.coming { color: var(--electric); border-color: rgba(79,195,247,0.3); pointer-events: none; }
+
+  /* ── AWARDS ── */
+  #awards {
+    padding: 80px 60px;
+  }
+
+  .awards-row {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .award-item {
+    text-align: center;
+    padding: 40px 32px;
+    border: 1px solid rgba(240,192,96,0.2);
+    min-width: 200px;
+    background: linear-gradient(135deg, rgba(240,192,96,0.05), transparent);
+    transition: all 0.4s;
+  }
+
+  .award-item:hover {
+    border-color: rgba(240,192,96,0.5);
+    box-shadow: 0 0 40px rgba(240,192,96,0.15);
+    transform: translateY(-6px);
+  }
+
+  .award-icon { font-size: 36px; display: block; margin-bottom: 16px; }
+  .award-name {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .award-org {
+    font-size: 12px;
+    color: rgba(232,228,240,0.45);
+  }
+
+  /* ── CONTACT ── */
+  #contact {
+    text-align: center;
+    padding: 120px 60px;
+    background: radial-gradient(ellipse at 50% 100%, rgba(45,27,94,0.5) 0%, transparent 60%);
+  }
+
+  .contact-intro {
+    font-size: 18px;
+    line-height: 1.9;
+    color: rgba(232,228,240,0.65);
+    max-width: 600px;
+    margin: 0 auto 50px;
+    font-style: italic;
+  }
+
+  .contact-links {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 32px;
+    border: 1px solid rgba(201,168,76,0.3);
+    color: var(--gold);
+    text-decoration: none;
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    transition: all 0.3s;
+    background: rgba(201,168,76,0.04);
+  }
+
+  .contact-link:hover {
+    background: rgba(201,168,76,0.15);
+    box-shadow: 0 0 30px rgba(201,168,76,0.2);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 40px 60px;
+    border-top: 1px solid rgba(201,168,76,0.1);
+  }
+
+  footer p {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: rgba(232,228,240,0.25);
+    text-transform: uppercase;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(1); }
+    50%       { opacity: 1;   transform: scaleY(1.3); }
+  }
+
+  @keyframes orbit-spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+
+  /* ── GLITCH EFFECT ── */
+  .glitch {
+    position: relative;
+  }
+  .glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    left: 2px;
+    top: 0;
+    background: linear-gradient(135deg, #f0c060 0%, #c9a84c 30%, #e8e4f0 60%, #4fc3f7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    clip-path: polygon(0 30%, 100% 30%, 100% 55%, 0 55%);
+    opacity: 0;
+    animation: glitch 5s ease infinite;
+  }
+
+  @keyframes glitch {
+    0%, 90%, 100% { opacity: 0; transform: translate(0); }
+    92%           { opacity: 0.7; transform: translate(-3px, 1px); }
+    94%           { opacity: 0.5; transform: translate(3px, -1px); }
+    96%           { opacity: 0.6; transform: translate(-2px, 2px); }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 20px 24px; }
+    .nav-links { display: none; }
+    section { padding: 80px 24px; }
+    .origin-content { grid-template-columns: 1fr; gap: 40px; }
+    .origin-visual { display: none; }
+    #hero { padding: 100px 24px 40px; }
+    .hero-stats { gap: 32px; }
+    awards { padding: 80px 24px; }
+    #contact { padding: 80px 24px; }
+  }
+
+  /* ── NEBULA OVERLAY ── */
+  .nebula-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background:
+      radial-gradient(ellipse 60% 50% at 20% 20%, rgba(45,27,94,0.18) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 60% at 80% 80%, rgba(26,58,107,0.15) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 40% at 50% 50%, rgba(107,63,160,0.08) 0%, transparent 70%);
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* ── QUOTE ── */
+  .epic-quote {
+    text-align: center;
+    padding: 80px 60px;
+    position: relative;
+    z-index: 1;
+  }
+  .epic-quote blockquote {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(16px, 2.5vw, 24px);
+    color: rgba(232,228,240,0.5);
+    font-weight: 400;
+    line-height: 1.8;
+    max-width: 700px;
+    margin: 0 auto;
+    letter-spacing: 1px;
+  }
+  .epic-quote blockquote span {
+    color: var(--gold);
+  }
+</style>
+</head>
+<body>
+
+<canvas id="stars-canvas"></canvas>
+<div class="nebula-overlay"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">MKK · Digital Architect</div>
+  <ul class="nav-links">
+    <li><a href="#origin">Genesis</a></li>
+    <li><a href="#journey">Chronicle</a></li>
+    <li><a href="#powers">Arsenal</a></li>
+    <li><a href="#missions">Missions</a></li>
+    <li><a href="#contact">Connect</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <p class="hero-overline">A Universe Story · 17 Years in the Making</p>
+  <h1 class="hero-title glitch" data-text="Mohit Kumar Khandelwal">Mohit Kumar<br/>Khandelwal</h1>
+  <p class="hero-subtitle">Technical Manager &nbsp;·&nbsp; Digital Architect &nbsp;·&nbsp; ERP Visionary</p>
+  <p class="hero-tagline">
+    In a universe where enterprises drift in chaos, one architect dared to<br/>
+    build order across galaxies — transforming legacy empires into<br/>
+    digital civilizations that endure.
+  </p>
+  <div class="hero-cta">
+    <a href="#journey" class="btn-primary">Begin the Chronicle</a>
+    <a href="#missions" class="btn-secondary">View Missions</a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat-item">
+      <span class="stat-number">17+</span>
+      <span class="stat-label">Years in Command</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number">10+</span>
+      <span class="stat-label">Countries Transformed</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number">D365</span>
+      <span class="stat-label">F&O · CE Architect</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number">∞</span>
+      <span class="stat-label">Impact Created</span>
+    </div>
+  </div>
+  <div class="scroll-indicator">
+    <span>Scroll to Explore</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- EPIC QUOTE -->
+<div class="epic-quote">
+  <blockquote>
+    "Every ERP is a civilization. Every implementation, <span>a Big Bang.</span><br/>
+    The architect doesn't just write code — he writes <span>history.</span>"
+  </blockquote>
+</div>
+
+<!-- ORIGIN -->
+<section id="origin">
+  <div class="section-header">
+    <span class="chapter-label">Chapter I</span>
+    <h2 class="section-title">The <span>Genesis</span></h2>
+    <div class="divider"></div>
+  </div>
+  <div class="origin-content">
+    <div class="origin-text">
+      <p>
+        Born in <strong>Jaipur</strong> — the Pink City, where ancient forts whisper of empires built with vision and will — Mohit Kumar Khandelwal chose a different kind of architecture. Not of stone, but of data, logic, and enterprise systems.
+      </p>
+      <p>
+        In the early 2000s, the ERP universe was vast, uncharted, and ruthlessly complex. Where others saw chaos, he saw <strong>patterns</strong>. Where enterprises saw impossible migrations, he saw <strong>pathways</strong>.
+      </p>
+      <p>
+        Seventeen years later, his name is written across multi-country transformation programs, innovation awards, and architectures that power enterprises spanning continents. This is not just a career — <strong>this is a universe story.</strong>
+      </p>
+    </div>
+    <div class="origin-visual">
+      <div class="orbit-ring"><div class="orbit-dot"></div></div>
+      <div class="orbit-ring"></div>
+      <div class="orbit-ring"></div>
+      <div class="core-planet"></div>
+    </div>
+  </div>
+</section>
+
+<!-- JOURNEY TIMELINE -->
+<section id="journey">
+  <div class="section-header">
+    <span class="chapter-label">Chapter II</span>
+    <h2 class="section-title">The <span>Chronicle</span></h2>
+    <div class="divider"></div>
+  </div>
+  <div class="timeline">
+
+    <div class="timeline-item">
+      <div class="timeline-node"></div>
+      <p class="timeline-period">2024 – Present</p>
+      <h3 class="timeline-role">Technical Manager &amp; Digital Architect</h3>
+      <p class="timeline-company">Sonata Software</p>
+      <p class="timeline-desc">
+        Commanding the largest frontier: a sprawling, multi-country Dynamics 365 F&O and CE transformation program. Leading a cross-functional engineering battalion, architecting the backbone of enterprises across 10+ nations, and governing delivery through PMO frameworks that leave no system behind.
+      </p>
+      <div class="timeline-tags">
+        <span class="tag">D365 F&O</span>
+        <span class="tag">D365 CE</span>
+        <span class="tag blue">Multi-Country</span>
+        <span class="tag blue">SAFe / Agile</span>
+        <span class="tag">PMO Governance</span>
+        <span class="tag">Technical Architecture</span>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-node"></div>
+      <p class="timeline-period">2020 – 2024</p>
+      <h3 class="timeline-role">Senior ERP Architect</h3>
+      <p class="timeline-company">Incadea / Cox Automotive</p>
+      <p class="timeline-desc">
+        Re-architected the DMS modules from the molecular level up — resulting in dramatic performance breakthroughs. Built systems so efficient that latency became a relic, and the codebase became a benchmark. Received the coveted <strong style="color:var(--gold)">DNA "Deep Thinking" Award</strong> for this engineering renaissance.
+      </p>
+      <div class="timeline-tags">
+        <span class="tag">NAV / D365 BC</span>
+        <span class="tag blue">DMS Architecture</span>
+        <span class="tag">Performance Engineering</span>
+        <span class="tag blue">Innovation</span>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-node"></div>
+      <p class="timeline-period">2016 – 2020</p>
+      <h3 class="timeline-role">ERP Solution Architect</h3>
+      <p class="timeline-company">MPower</p>
+      <p class="timeline-desc">
+        Created a Product Accounting vertical from absolute zero — no template, no precedent. Built the full architecture, processes, and technical layer from scratch. Awarded the <strong style="color:var(--gold)">DNA "Run for It" Innovation Award</strong> for delivering under the impossible.
+      </p>
+      <div class="timeline-tags">
+        <span class="tag">Microsoft Dynamics NAV</span>
+        <span class="tag blue">Product Accounting</span>
+        <span class="tag">Vertical Build</span>
+        <span class="tag blue">CI/CD Governance</span>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-node"></div>
+      <p class="timeline-period">2008 – 2016</p>
+      <h3 class="timeline-role">NAV Developer → Functional Lead</h3>
+      <p class="timeline-company">Various ERP Firms</p>
+      <p class="timeline-desc">
+        The forge years. Transforming from a curious developer into a full-spectrum ERP warrior — mastering NAV internals, learning the language of enterprise finance, and earning the trust of stakeholders across industries. Every project, a new planet. Every challenge, a new orbit.
+      </p>
+      <div class="timeline-tags">
+        <span class="tag">Dynamics NAV</span>
+        <span class="tag blue">Finance &amp; Operations</span>
+        <span class="tag">Stakeholder Management</span>
+        <span class="tag blue">Power BI</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- POWERS -->
+<section id="powers">
+  <div class="section-header">
+    <span class="chapter-label">Chapter III</span>
+    <h2 class="section-title">The <span>Arsenal</span></h2>
+    <div class="divider"></div>
+  </div>
+  <div class="powers-grid">
+    <div class="power-card">
+      <span class="power-icon">⚡</span>
+      <h3 class="power-title">ERP Architecture</h3>
+      <p class="power-desc">Microsoft Dynamics 365 F&O and CE from core to cloud. 17 years of implementation scars turned into institutional wisdom. Multi-country, multi-entity, multi-everything.</p>
+    </div>
+    <div class="power-card">
+      <span class="power-icon">🌌</span>
+      <h3 class="power-title">Digital Transformation</h3>
+      <p class="power-desc">Guiding enterprises through the chaos of change. PMO governance, Agile/SAFe delivery, and the rare ability to align business and technology under one vision.</p>
+    </div>
+    <div class="power-card">
+      <span class="power-icon">🔭</span>
+      <h3 class="power-title">Technical Leadership</h3>
+      <p class="power-desc">Leading engineering teams across continents. Mentoring architects, resolving crises, and maintaining delivery velocity even when the universe conspires against you.</p>
+    </div>
+    <div class="power-card">
+      <span class="power-icon">📊</span>
+      <h3 class="power-title">Data &amp; Reporting</h3>
+      <p class="power-desc">Power BI dashboards that turn raw enterprise data into strategic clarity. CI/CD governance pipelines that make delivery predictable and auditable.</p>
+    </div>
+    <div class="power-card">
+      <span class="power-icon">🛸</span>
+      <h3 class="power-title">Stakeholder Mastery</h3>
+      <p class="power-desc">C-suite communication, cross-cultural delivery, and the diplomacy to keep global programs aligned when timelines compress and pressures mount.</p>
+    </div>
+    <div class="power-card">
+      <span class="power-icon">🏗️</span>
+      <h3 class="power-title">Solution Design</h3>
+      <p class="power-desc">Translating complex business requirements into elegant technical blueprints. From DMS modules to product accounting verticals — built from first principles.</p>
+    </div>
+  </div>
+</section>
+
+<!-- AWARDS -->
+<section id="awards">
+  <div class="section-header">
+    <span class="chapter-label">Hall of Legends</span>
+    <h2 class="section-title"><span>Honors</span> Bestowed</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="awards-row">
+    <div class="award-item">
+      <span class="award-icon">🏆</span>
+      <p class="award-name">DNA "Deep Thinking" Award</p>
+      <p class="award-org">Incadea · Architecture Innovation</p>
+    </div>
+    <div class="award-item">
+      <span class="award-icon">🚀</span>
+      <p class="award-name">DNA "Run for It" Award</p>
+      <p class="award-org">MPower · Delivery Excellence</p>
+    </div>
+    <div class="award-item">
+      <span class="award-icon">🌍</span>
+      <p class="award-name">Global Program Lead</p>
+      <p class="award-org">Sonata · 10+ Country Transformation</p>
+    </div>
+    <div class="award-item">
+      <span class="award-icon">⭐</span>
+      <p class="award-name">17 Years Zero-Defect Career</p>
+      <p class="award-org">Enterprise ERP · Industry Recognition</p>
+    </div>
+  </div>
+</section>
+
+<!-- MISSIONS / SAAS -->
+<section id="missions">
+  <div class="section-header">
+    <span class="chapter-label">Chapter IV · The New Frontier</span>
+    <h2 class="section-title">Active <span>Missions</span></h2>
+    <div class="divider"></div>
+  </div>
+  <p style="text-align:center;color:rgba(232,228,240,0.55);font-size:15px;line-height:1.8;max-width:620px;margin:0 auto 60px;font-style:italic;">
+    The chronicle doesn't end here. Having mastered the art of enterprise transformation, the Architect now launches his own constellations — SaaS products built from 17 years of hard-won wisdom.
+  </p>
+  <div class="missions-grid">
+    <div class="mission-card">
+      <span class="mission-badge live">● Live</span>
+      <h3 class="mission-title">Personal Brand Hub</h3>
+      <p class="mission-desc">This universe — a cinematic showcase of 17 years of transformation leadership, built to inspire, attract, and connect.</p>
+      <a href="#contact" class="mission-link">Explore → </a>
+    </div>
+    <div class="mission-card coming-soon">
+      <span class="mission-badge soon">◎ Coming Soon</span>
+      <h3 class="mission-title">Mission Alpha</h3>
+      <p class="mission-desc">The first SaaS product is being forged in the furnace of enterprise experience. Designed for the ERP ecosystem. Details launching soon.</p>
+      <a href="#contact" class="mission-link coming">Stay Tuned</a>
+    </div>
+    <div class="mission-card coming-soon">
+      <span class="mission-badge soon">◎ Coming Soon</span>
+      <h3 class="mission-title">Mission Beta</h3>
+      <p class="mission-desc">A second frontier is being mapped. Digital tools for transformation leaders — built by someone who has lived every challenge you face.</p>
+      <a href="#contact" class="mission-link coming">Stay Tuned</a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-header">
+    <span class="chapter-label">Open Transmission</span>
+    <h2 class="section-title">Begin a <span>Connection</span></h2>
+    <div class="divider"></div>
+  </div>
+  <p class="contact-intro">
+    Whether you're building an empire, transforming a civilization, or launching a new mission — the universe rewards those who dare to connect.
+  </p>
+  <div class="contact-links">
+    <a href="https://www.linkedin.com/in/mkkhandelwal" target="_blank" class="contact-link">
+      ⬡ LinkedIn Profile
+    </a>
+    <a href="mailto:mohit@mkkhandelwal.com" class="contact-link">
+      ✉ Send a Signal
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 Mohit Kumar Khandelwal · Architect of Digital Civilizations · All Universes Reserved</p>
+</footer>
+
+<script>
+// ── STAR FIELD ──
+const canvas = document.getElementById('stars-canvas');
+const ctx = canvas.getContext('2d');
+
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+const stars = Array.from({ length: 300 }, () => ({
+  x: Math.random(),
+  y: Math.random(),
+  r: Math.random() * 1.5 + 0.2,
+  speed: Math.random() * 0.0002 + 0.00005,
+  opacity: Math.random() * 0.7 + 0.1,
+  pulse: Math.random() * Math.PI * 2
+}));
+
+let frame = 0;
+function drawStars() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  frame += 0.01;
+  stars.forEach(s => {
+    const op = s.opacity * (0.7 + 0.3 * Math.sin(frame + s.pulse));
+    ctx.beginPath();
+    ctx.arc(s.x * canvas.width, s.y * canvas.height, s.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(232, 228, 240, ${op})`;
+    ctx.fill();
+    s.y += s.speed;
+    if (s.y > 1) s.y = 0;
+  });
+  requestAnimationFrame(drawStars);
+}
+drawStars();
+
+// ── SHOOTING STARS ──
+function shootingStar() {
+  const x = Math.random() * canvas.width;
+  const y = Math.random() * canvas.height * 0.5;
+  let progress = 0;
+  const angle = Math.PI / 4;
+  const length = 120 + Math.random() * 80;
+  const speed = 0.04;
+
+  function draw() {
+    if (progress >= 1) return;
+    progress += speed;
+    const cx = x + Math.cos(angle) * length * progress;
+    const cy = y + Math.sin(angle) * length * progress;
+    const gradient = ctx.createLinearGradient(
+      cx - Math.cos(angle) * 30, cy - Math.sin(angle) * 30, cx, cy
+    );
+    gradient.addColorStop(0, 'rgba(240,192,96,0)');
+    gradient.addColorStop(1, 'rgba(240,192,96,0.8)');
+    ctx.beginPath();
+    ctx.strokeStyle = gradient;
+    ctx.lineWidth = 1.5;
+    ctx.moveTo(cx - Math.cos(angle) * 30, cy - Math.sin(angle) * 30);
+    ctx.lineTo(cx, cy);
+    ctx.stroke();
+    requestAnimationFrame(draw);
+  }
+  draw();
+}
+setInterval(shootingStar, 3500);
+
+// ── SCROLL REVEAL ──
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('.timeline-item, .power-card').forEach(el => observer.observe(el));
+
+// ── STAGGERED POWER CARDS ──
+document.querySelectorAll('.power-card').forEach((card, i) => {
+  card.style.transitionDelay = `${i * 0.1}s`;
+});
+</script>
+</body>
+</html>
